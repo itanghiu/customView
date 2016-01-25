@@ -3,6 +3,10 @@ package fys.com.customview;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
@@ -18,6 +22,7 @@ import android.widget.TextView;
  * Created by I-Tang HIU  on 20/01/2016.
  */
 public class CustomView extends LinearLayout {
+    //public class CustomView extends View {
 
     private boolean selected = false;
     protected View view;
@@ -46,13 +51,31 @@ public class CustomView extends LinearLayout {
         }
         mainLabel.setText(centerLabel);
         leftImageView.setImageDrawable(leftPicture);
+        invalidate();
+        setWillNotDraw(false);
     }
 
     private void init() {
 
-        view = LayoutInflater.from(getContext()).inflate(R.layout.custom_view, this, true);
+        inflate(getContext(), R.layout.custom_view, this);
         mainLabel = (TextView) findViewById(R.id.mainLabel);
         leftImageView = (ImageView) findViewById(R.id.leftImageView);
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+
+        super.onDraw(canvas);
+        int viewWidth = this.getMeasuredWidth();
+        int viewHeight = this.getMeasuredHeight();
+        int rightMargin= 10;
+        RectF rectangle = new RectF(0, 0, viewWidth , viewHeight);
+        final Paint paint = new Paint();
+        paint.setStyle(Paint.Style.FILL);
+        paint.setColor(Color.LTGRAY);
+        paint.setAntiAlias(true);
+        int radius = 20;
+        canvas.drawRoundRect(rectangle, radius, radius, paint);
     }
 }
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="custom_view">
+    <declare-styleable name="custom_view_attributes">
         <attr name="leftPicture" format="string" />
         <attr name="label" format="string" />
     </declare-styleable>

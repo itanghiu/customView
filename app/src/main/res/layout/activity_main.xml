@@ -16,5 +16,4 @@
         custom:label="A Strawberry"
         custom:leftPicture="@drawable/strawberry"
         />
-
 </LinearLayout>

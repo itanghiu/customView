@@ -22,7 +22,6 @@ import android.widget.TextView;
  * Created by I-Tang HIU  on 20/01/2016.
  */
 public class CustomView extends LinearLayout {
-    //public class CustomView extends View {
 
     private boolean selected = false;
     protected View view;
@@ -31,35 +30,25 @@ public class CustomView extends LinearLayout {
     private TextView mainLabel;
     private ImageView leftImageView;
 
-    public CustomView(Context context) {
-
-        super(context);
-        init();
-    }
-
     public CustomView(Context context, AttributeSet attrs) {
 
         super(context, attrs);
-        init();
-        TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.custom_view, 0, 0);
+        inflate(getContext(), R.layout.custom_view, this);
+        mainLabel = (TextView) findViewById(R.id.mainLabel);
+        leftImageView = (ImageView) findViewById(R.id.leftImageView);
+
+        TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.custom_view_attributes, 0, 0);
         try {
-            leftPicture = a.getDrawable(R.styleable.custom_view_leftPicture);
-            centerLabel = a.getString(R.styleable.custom_view_label);
+            leftPicture = a.getDrawable(R.styleable.custom_view_attributes_leftPicture);
+            centerLabel = a.getString(R.styleable.custom_view_attributes_label);
         }
         finally {
             a.recycle();
         }
         mainLabel.setText(centerLabel);
         leftImageView.setImageDrawable(leftPicture);
-        invalidate();
+        //invalidate();
         setWillNotDraw(false);
-    }
-
-    private void init() {
-
-        inflate(getContext(), R.layout.custom_view, this);
-        mainLabel = (TextView) findViewById(R.id.mainLabel);
-        leftImageView = (ImageView) findViewById(R.id.leftImageView);
     }
 
     @Override
@@ -68,7 +57,6 @@ public class CustomView extends LinearLayout {
         super.onDraw(canvas);
         int viewWidth = this.getMeasuredWidth();
         int viewHeight = this.getMeasuredHeight();
-        int rightMargin= 10;
         RectF rectangle = new RectF(0, 0, viewWidth , viewHeight);
         final Paint paint = new Paint();
         paint.setStyle(Paint.Style.FILL);

@@ -3,6 +3,10 @@ package fys.com.customview;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
@@ -26,33 +30,40 @@ public class CustomView extends LinearLayout {
     private TextView mainLabel;
     private ImageView leftImageView;
 
-    public CustomView(Context context) {
-
-        super(context);
-        init();
-    }
-
     public CustomView(Context context, AttributeSet attrs) {
 
         super(context, attrs);
-        init();
-        TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.custom_view, 0, 0);
+        inflate(getContext(), R.layout.custom_view, this);
+        mainLabel = (TextView) findViewById(R.id.mainLabel);
+        leftImageView = (ImageView) findViewById(R.id.leftImageView);
+
+        TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.custom_view_attributes, 0, 0);
         try {
-            leftPicture = a.getDrawable(R.styleable.custom_view_leftPicture);
-            centerLabel = a.getString(R.styleable.custom_view_label);
+            leftPicture = a.getDrawable(R.styleable.custom_view_attributes_leftPicture);
+            centerLabel = a.getString(R.styleable.custom_view_attributes_label);
         }
         finally {
             a.recycle();
         }
         mainLabel.setText(centerLabel);
         leftImageView.setImageDrawable(leftPicture);
+        //invalidate();
+        setWillNotDraw(false);
     }
 
-    private void init() {
+    @Override
+    protected void onDraw(Canvas canvas) {
 
-        view = LayoutInflater.from(getContext()).inflate(R.layout.custom_view, this, true);
-        mainLabel = (TextView) findViewById(R.id.mainLabel);
-        leftImageView = (ImageView) findViewById(R.id.leftImageView);
+        super.onDraw(canvas);
+        int viewWidth = this.getMeasuredWidth();
+        int viewHeight = this.getMeasuredHeight();
+        RectF rectangle = new RectF(0, 0, viewWidth , viewHeight);
+        final Paint paint = new Paint();
+        paint.setStyle(Paint.Style.FILL);
+        paint.setColor(Color.LTGRAY);
+        paint.setAntiAlias(true);
+        int radius = 20;
+        canvas.drawRoundRect(rectangle, radius, radius, paint);
     }
 }
 

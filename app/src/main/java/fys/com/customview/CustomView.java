@@ -47,7 +47,6 @@ public class CustomView extends LinearLayout {
         }
         mainLabel.setText(centerLabel);
         leftImageView.setImageDrawable(leftPicture);
-        //invalidate();
         setWillNotDraw(false);
     }
 
